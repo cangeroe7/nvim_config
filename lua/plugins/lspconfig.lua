@@ -34,6 +34,13 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
       local util = require("lspconfig/util")
+      local on_attach = function(client, bufnr)
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature()<CR>", { noremap = true, silent = true})
+      end
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
       })
@@ -61,6 +68,7 @@ return {
 
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
+        on_attach = on_attach,
       })
 
       lspconfig.emmet_language_server.setup({
